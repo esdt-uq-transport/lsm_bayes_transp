@@ -179,3 +179,50 @@ def data_quantile_from_std_norm_discrete(zdat, obsqs, probs, minval=-np.inf, max
         qout[vsq] = qtmp[:]
 
     return qout
+
+def inverse_cdf_from_obs_fill_msg(vcdat, obsqs, probs, msgval=-9999.):
+    # Compute transform from observed quantiles to probabilities via inverse CDF 
+
+    nprb = probs.shape[0]
+    ndat = vcdat.shape[0]
+    dsq = np.arange(ndat)
+    vsq = dsq[vcdat != msgval]
+    msq = dsq[vcdat == msgval]
+    nvld = vsq.shape[0]
+    nmsg = msq.shape[0]
+    zout = np.zeros((ndat,)) + msgval
+
+    if (obsqs.shape != probs.shape):
+        print("Input and output quantile lengths must match")
+    elif (nvld == 0):
+        print("All observations missing, no transformation performed")
+    else:
+        ptst = np.append(0.0,np.append(probs,1.0))
+        etst = np.append(-np.inf,np.append(obsqs,np.inf))
+        qsq = np.arange(ptst.shape[0])
+
+        # Matrices
+        ntst = etst.shape[0]
+        dtmt = np.tile(vcdat[vsq],(ntst,1))
+        etmt = np.transpose(np.tile(etst,(nvld,1)))
+
+        # Indicators for breakpoints of empirical CDF
+        lwind = (etmt < dtmt)
+        hiind = (dtmt < etmt)
+
+        smlw = np.sum(lwind,axis=0) - 1
+        smhi = ntst - np.sum(hiind,axis=0)
+
+        # Find probability spot
+        prbdif = ptst[smhi] - ptst[smlw]
+        pspt = ptst[smlw] + prbdif * random.uniform(size=nvld)
+        #print(pspt[505:510])
+
+        zout[vsq] = pspt 
+
+        # Missing
+        if nmsg > 0:
+            psptm = random.uniform(size=nmsg)
+            zout[msq] = psptm
+
+    return zout    
