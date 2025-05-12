@@ -31,23 +31,23 @@ random.seed(411840)
 for j in range(1,36):
     mbrstr = '%03d' % (j)
     mbrlst.append(mbrstr)
-    if j == 1:
-        dtsq = '18500101-20051231'
-    else: 
-        dtsq = '19200101-20051231'
-    flcr = 'b.e11.B20TRC5CNBDRD.f09_g16.%s.clm2.h1.H2OSNO.%s.nc' % (mbrstr,dtsq)
+    if j < 34:
+        dtsq = '20060101-20801231'
+    else:
+        dtsq = '20060101-21001231'
+    flcr = 'b.e11.BRCP85C5CNBDRD.f09_g16.%s.clm2.h1.H2OSNO.%s.nc' % (mbrstr,dtsq)
     fllst.append(flcr)
-for j in range(101,108):
+for j in range(101,106):
     mbrstr = '%03d' % (j)
     mbrlst.append(mbrstr)
-    dtsq = '19200101-20051231'
-    flcr = 'b.e11.B20TRC5CNBDRD.f09_g16.%s.clm2.h1.H2OSNO.%s.nc' % (mbrstr,dtsq)
+    dtsq = '20060101-21001231'
+    flcr = 'b.e11.BRCP85C5CNBDRD.f09_g16.%s.clm2.h1.H2OSNO.%s.nc' % (mbrstr,dtsq)
     fllst.append(flcr)
 
 nmbr = len(mbrlst)
 
 # Read Quantiles, mask, locations
-tgtdt = 20050401
+tgtdt = 20750401
 qfnm = 'LENS_NAmer_H2OSNO_%d_Quantile.nc' % (tgtdt)
 ncclm = Dataset(qfnm,'r')
 utmx = ncclm.variables['UTM_easting'][:,:]
