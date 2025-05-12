@@ -1,0 +1,6 @@
+ParamName,FitLoc,Elements
+nugget.nugget_params,param_chain,2
+kernel.lengthscale,param_chain,1
+kernel.theta_q,param_chain,1
+kernel.sigma_params,param_chain,2
+kernel.m,tracked_chain,1
