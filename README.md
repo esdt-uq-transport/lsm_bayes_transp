@@ -5,31 +5,13 @@ This repository implements [Bayesian transport maps (BTM, Katzfuss and Schäfer,
 
 ***
 
-### BTM for Snow
+### Examples
 
-This implementation executes the BTM fit and simulation for snow water equivalent (SWE) from the large ensemble over North America. A quantile transformation is applied to the ensemble before fitting the BTM. Supporting routines for the quantile and inverse tranformations are found in `lib/quantile_supp.py`. Scripts for each processing step are found in the `script` directory. BTM fitting also requires the [BatRam](https://github.com/katzfuss-group/batram) library. The procedure below highlights the contemporary climate experiment from the large ensemble, and the steps can be repeated for other experiments, such as the end-of-century RCP 8.5 experiment. 
+Several examples of the BTM application to the large ensemble are found in the `examples` directory
 
-* Setup/activate Python environment for using BatRam
-    - [Environment setup notes](batram_environment.md)
-* Download relevant large ensemble datasets from the [Climate Data Gateway]((https://www.earthsystemgrid.org/dataset/ucar.cgd.ccsm4.cesmLE.html))
-    - [Daily SWE output listing](https://www.earthsystemgrid.org/dataset/ucar.cgd.ccsm4.cesmLE.lnd.proc.daily_ave.H2OSNO/file.html)
-    - For the contemporary climate experiment, the string `*B20TRC5CNBDRD*` can be entered in the *Filter by File Name* box  
-    For the RCP 8.5 scenario, the string `*BRCP85C5CNBDRD*` can be used.
-    - Files with `OIC` in the file name do not need to be included in the ensemble
-* Compute quantiles and implement location masking: `lens_h2osno_quantile.py`  
-Script produces output dataset with location-specific quantiles, along with summary maps  
-Needed input data:
-    - Downloaded ensemble output
-    - Probability grid values `config/Probs.csv`
-    - Preliminary land mask and location info: `config/LENS_NAmer_Locs.csv`
-* Optional: Plot selected city empirical CDFs: `lens_city_ecdf.py`  
-Needed input data:
-    - List of selected cities and locations: `config/LENS_Cities_LocIdx.csv`
-* Fit BTM and generate new samples: `lens_h2osno_trsnf_batram.py`  
-Needed input data:
-    - Downloaded ensemble output
-    - Quantiles by location
-    - List of selected cities and locations
+* [Ensemble preprocessing](examples/swe_ens_process.md): Notes and scripts for downloading and preprocessing the ensemble data
+* [BTM fitting and simulation](examples/fit_sim_btm.md): Fitting BTM for ensembles under contemporary and future climate scenarios
+* [Comparative assessment](examples/btm_scoring.md): Evaluating multiple generative models for held-out ensemble members
 
 ***
 
@@ -63,7 +45,7 @@ CESM/CLM variables from large ensemble experiment
 
 ## Copyright and Licensing Info
 
-Copyright (c) 2023-24 California Institute of Technology (“Caltech”). U.S. Government sponsorship acknowledged. All rights reserved.
+Copyright (c) 2023-25 California Institute of Technology (“Caltech”). U.S. Government sponsorship acknowledged. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
