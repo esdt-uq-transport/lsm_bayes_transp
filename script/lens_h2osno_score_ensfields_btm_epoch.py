@@ -14,7 +14,7 @@ import scipy
 import torch
 import gpytorch
 
-import veccs.orderings
+from veccs.orderings2 import farthest_first_ordering, preceding_neighbors 
 from batram.legmods import Data, SimpleTM
 
 random.seed(623114)
@@ -91,11 +91,11 @@ lcsadj[:,0] = (lcsout[:,0] + 150.0) / 6500.0
 lcsadj[:,1] = (lcsout[:,1] - 6750.0) / 6500.0
 
 # Location ordering
-order = veccs.orderings.maxmin_cpp(lcsout)
+order, dsts = farthest_first_ordering(lcsout, start_index=None)
 lcsord = lcsout[order, ...]
 # Conditioning set
 largest_conditioning_set = 30
-nn = veccs.orderings.find_nns_l2(lcsord, largest_conditioning_set)
+nn, nbrdst = preceding_neighbors(lcsord, numpy.arange(lcsord.shape[0]), largest_conditioning_set)
 
 
 ### Training sequences

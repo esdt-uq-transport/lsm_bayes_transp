@@ -13,7 +13,7 @@ import torch
 import sys
 
 # Packages for building transport maps
-import veccs.orderings
+from veccs.orderings2 import farthest_first_ordering, preceding_neighbors 
 from batram.legmods import Data, SimpleTM
 
 import matplotlib
@@ -27,7 +27,7 @@ import cartopy.feature as cfeature
 flmsg = numpy.array([-9999.0], dtype=numpy.float32)
 
 # Read Quantiles, mask, locations
-tgtdtfl = datetime.date(2005,4,1)
+tgtdtfl = datetime.date(2075,4,1)
 dtstr = tgtdtfl.strftime('%Y-%m-%d')
 tgtdt = int(tgtdtfl.strftime('%Y%m%d'))
 qfnm = 'LENS_NAmer_H2OSNO_%d_Quantile.nc' % (tgtdt)
@@ -75,18 +75,19 @@ print(lcctr)
 print(numpy.amin(ztmp))
 print(numpy.amax(ztmp))
 
-order = veccs.orderings.maxmin_cpp(lcsout)
+order, dsts = farthest_first_ordering(lcsout, start_index=None)
+print(order)
+print(order.shape)
 lcsord = lcsout[order, ...]
 obs = torch.as_tensor(zout)
 obs = obs[..., order]
-print(order)
 
 # Timing
 train_start = datetime.datetime.now()
 
 # Conditioning set
 largest_conditioning_set = 30
-nn = veccs.orderings.find_nns_l2(lcsord, largest_conditioning_set)
+nn, nbrdst = preceding_neighbors(lcsord, numpy.arange(nvld), largest_conditioning_set)
 
 # Create a `Data` object for use with the `SimpleTM` model.
 # All objects passed to this class must be torch tensors, so we type convert
