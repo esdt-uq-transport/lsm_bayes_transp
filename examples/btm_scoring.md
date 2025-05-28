@@ -6,7 +6,7 @@ for the target date of interest as described in the [preprocessing example](swe_
 partitions are selected and saved. For each train/test sample, the models are trained, and log scores (negative log likelihoods) are 
 computed for the test fields.
 
-* Generate and save train/test collections: `gen_score_seq.py`
-* Train and score nonlinear and linear BTM models: `lens_h2osno_score_ens_btm_epoch.py`
-* Train and score nonstationary covariance model: `lens_h2osno_score_ens_gp_epoch.py`
+* Generate and save train/test collections: `gen_score_seq_ensfields.py`
+* Train and score nonlinear and linear BTM models: `lens_h2osno_score_ensfields_btm_epoch.py`
+* Train and score nonstationary covariance model: `lens_h2osno_score_ensfields_gp_epoch.py`
 
