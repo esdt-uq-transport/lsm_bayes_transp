@@ -87,6 +87,16 @@ print(h2osnomd.shape)
 print(ma.count_masked(h2osnomd))
 h2osnomd =  ma.masked_where(snomsk < 0,h2osnomd)
 
+# Prop number of nonzero members
+nonzrs = numpy.zeros(h2osnomd.shape,dtype=h2osnomd.dtype)
+for q in range(nlat):
+    for p in range(nlon):
+        crqs = sweqs[q,p,:]
+        sprb = prbs[crqs >= 2.5]
+        if sprb.shape[0] > 0:
+            nonzrs[q,p] = 1.0 - numpy.amin(sprb)
+nonzrs =  ma.masked_where(snomsk < 0,nonzrs)
+
 # Plot median
 fig = pyplot.figure(figsize=(9,9))
 trnsfrm = ccrs.PlateCarree()
@@ -95,7 +105,7 @@ cs = pyplot.pcolormesh(lnarr,ltarr,h2osnomd,vmin=0,vmax=550,transform = trnsfrm,
 pmp.coastlines(color='#777777',linewidth=0.5)
 pmp.set_extent([-140, -70, 10, 75])
 cbar = pyplot.colorbar(cs,extend='max',orientation='horizontal',shrink=0.5,pad=0.06)
-cbar.set_label('H2OSNO [mm]',size=10)
+cbar.set_label('SWE [mm]',size=10)
 cbar.ax.tick_params(labelsize=9)
 tstr = 'Ensemble Median Snow Water Equivalent %d' % (tgtdt) 
 pyplot.title(tstr)
@@ -104,6 +114,25 @@ pltnm = 'LENS_H2OSNO_EnsMedian_NAmer_%d.pdf' % (tgtdt)
 pyplot.tight_layout()
 pyplot.savefig(pltnm)
 pyplot.close()
+
+# Plot Nonzero prop
+fig = pyplot.figure(figsize=(9,9))
+trnsfrm = ccrs.PlateCarree()
+pmp = fig.add_subplot(1,1,1, projection=ccrs.LambertConformal(central_longitude=-105, central_latitude=33) )
+cs = pyplot.pcolormesh(lnarr,ltarr,nonzrs,vmin=0,vmax=1,transform = trnsfrm,cmap=pyplot.get_cmap('RdPu'))
+pmp.coastlines(color='#777777',linewidth=0.5)
+pmp.set_extent([-140, -70, 10, 75])
+cbar = pyplot.colorbar(cs,extend='neither',orientation='horizontal',shrink=0.5,pad=0.06)
+cbar.set_label('Proportion',size=10)
+cbar.ax.tick_params(labelsize=9)
+tstr = 'Ensemble Proportion Nonzero SWE %d' % (tgtdt) 
+pyplot.title(tstr)
+
+pltnm = 'LENS_H2OSNO_EnsNonzeroProp_NAmer_%d.pdf' % (tgtdt)
+pyplot.tight_layout()
+pyplot.savefig(pltnm)
+pyplot.close()
+
 
 # Plot devs
 fig = pyplot.figure(figsize=(9,6))
@@ -117,7 +146,7 @@ for j in range(nmbr):
     pmp.coastlines(color='#777777',linewidth=0.5)
     pmp.set_extent([-140, -70, 10, 75])
     cbar = pyplot.colorbar(cs,extend='both',orientation='horizontal',shrink=0.8,pad=0.06)
-    cbar.set_label('H2OSNO [mm]',size=9)
+    cbar.set_label('SWE Anomaly [mm]',size=9)
     cbar.ax.tick_params(labelsize=9)
     tstr = 'Ens Member %s Deviation' % mbrlst[j]
     pyplot.title(tstr,fontsize=10)

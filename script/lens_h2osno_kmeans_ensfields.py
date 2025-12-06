@@ -28,7 +28,7 @@ flmsg = numpy.array([-9999.0], dtype=numpy.float32)
 random.seed(411840)
 
 # Read Quantiles, mask, locations
-tgtdt = 20750401
+tgtdt = 19850101
 qfnm = 'LENS_NAmer_H2OSNO_%d_Quantile.nc' % (tgtdt)
 ncclm = Dataset(qfnm,'r')
 utmx = ncclm.variables['UTM_easting'][:,:]
@@ -96,7 +96,7 @@ for i in range(1,21):
 print(inertias)
 print(lblout[100:120])
 
-clsout = numpy.zeros((nlat,nlon), dtype=numpy.int16)
+clsout = numpy.zeros((nlat,nlon), dtype=numpy.int16) - 99
 
 # Plot inertia
 c3 = ["#77B0F1","#81BB4E","#E991A1"]
