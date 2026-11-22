@@ -10,4 +10,5 @@ computed for the test fields.
 
 * If needed, generate and save train/test collections: `gen_score_seq_ensfields.py`
 * Train and score sequences of fixed neighborhood BTMs: `lens_h2osno_trsnf_fix_param_fields.py`
+* Summary figure with scores: `lens_scoring_nbrseq.py`
 

@@ -114,9 +114,9 @@ for j in range(ncase):
     else:
         scrfrmfl = pandas.concat([scrfrmfl, scrmrg], ignore_index=True)
 
-scrfrmfl['NonLinScore_Norm'] = scrfrmfl['NonLinScore_Mean'] / scrfrmfl['NLoc']
-scrfrmfl['LinearScore_Norm'] = scrfrmfl['LinearScore_Mean'] / scrfrmfl['NLoc']
-scrfrmfl['NonStatScore_Norm'] = scrfrmfl['NonStatScore_Mean'] / scrfrmfl['NLoc']
+scrfrmfl['NonLinScore_Norm'] = -1.0 * scrfrmfl['NonLinScore_Mean'] / scrfrmfl['NLoc']
+scrfrmfl['LinearScore_Norm'] = -1.0 * scrfrmfl['LinearScore_Mean'] / scrfrmfl['NLoc']
+scrfrmfl['NonStatScore_Norm'] = -1.0 * scrfrmfl['NonStatScore_Mean'] / scrfrmfl['NLoc']
 
 #c6 = ["#C7657B","#AC7A23","#718E00","#009A68","#0098A9","#6881C9"]
 c3 = ["#6929c4","#9f1853","#198038"]
@@ -150,7 +150,7 @@ for j in range(3):
         lbllst.append(lblstr)
 
 p3.yaxis.grid(color='#898989',linestyle='dotted')
-p3.set_ylim(-0.95,-0.6)
+p3.set_ylim(0.6,0.95)
 p3.set_xlim(0,ncase)
 p3.set_xlabel('Date',size=11)
 p3.set_ylabel('Normalized Log Score',size=11)
@@ -162,7 +162,7 @@ for lb in p3.xaxis.get_ticklabels():
 for lb in p3.yaxis.get_ticklabels():
     lb.set_fontsize(9)
 
-leg = pyplot.legend(plstswp,lbllst, loc = 'upper left',\
+leg = pyplot.legend(plstswp,lbllst, loc = 'lower left',\
                     labelspacing=0.2,borderpad=0.6,ncol=3,handletextpad=0.4,columnspacing=1.0)
 for t in leg.get_texts():
     t.set_fontsize(8)
