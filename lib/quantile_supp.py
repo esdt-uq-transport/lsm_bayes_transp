@@ -13,7 +13,7 @@ def quantile_msgdat(vcdat, probs, msgval=-9999.):
     dtsb = vcdat[vcdat != msgval]
 
     if dtsb.shape[0] > 0:
-        qsout = np.percentile(dtsb,q=prb100,method='weibull')
+        qsout = np.percentile(dtsb,q=prb100,method='linear')
     else:
         qsout = np.zeros(probs.shape) + msgval
     return qsout
