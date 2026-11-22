@@ -113,9 +113,10 @@ print(btmqs)
 print(gpqs)
 print(scrmrg)
 
-scrfrmfl['NonLinScore_Norm'] = scrfrmfl['NonLinScore_Mean'] / scrfrmfl['NLoc']
-scrfrmfl['LinearScore_Norm'] = scrfrmfl['LinearScore_Mean'] / scrfrmfl['NLoc']
-scrfrmfl['NonStatScore_Norm'] = scrfrmfl['NonStatScore_Mean'] / scrfrmfl['NLoc']
+scrfrmfl['NonLinScore_Norm'] = -1.0 * scrfrmfl['NonLinScore_Mean'] / scrfrmfl['NLoc']
+scrfrmfl['LinearScore_Norm'] = -1.0 * scrfrmfl['LinearScore_Mean'] / scrfrmfl['NLoc']
+scrfrmfl['NonStatScore_Norm'] = -1.0 * scrfrmfl['NonStatScore_Mean'] / scrfrmfl['NLoc']
+print(scrfrmfl['NonStatScore_Norm'].describe())
 
 #c6 = ["#C7657B","#AC7A23","#718E00","#009A68","#0098A9","#6881C9"]
 c3 = ["#6929c4","#9f1853","#198038"]
@@ -131,7 +132,7 @@ p3 = pyplot.subplot(1,1,1)
 
 for j in range(len(tspts)):
     rxspt = tspts[j]
-    rect1 = pyplot.Rectangle((rxspt,-0.9),rwdth[j],0.3, \
+    rect1 = pyplot.Rectangle((rxspt,0.62),rwdth[j],0.42, \
                               facecolor=rcls[j],edgecolor='none')
     pyplot.gca().add_patch(rect1)
 
@@ -171,19 +172,19 @@ for q in range(nyr):
     for m1 in range(1,5):
         if yrlst[q] < 2040:
             xspt = q*4+m1-1
-            pyplot.text(xspt+0.5,-0.89,mthstr[m1-1],fontsize=8,ha='center')
+            pyplot.text(xspt+0.5,0.63,mthstr[m1-1],fontsize=8,ha='center')
         else:
             xspt = q*4+m1
-            pyplot.text(xspt+0.5,-0.89,mthstr[m1-1],fontsize=8,ha='center')
-        p3.plot( [xspt, xspt], [-0.9,-0.6], linestyle='dotted', c='#898989',linewidth=0.7)
+            pyplot.text(xspt+0.5,0.63,mthstr[m1-1],fontsize=8,ha='center')
+        p3.plot( [xspt, xspt], [0.62,1.04], linestyle='dotted', c='#898989',linewidth=0.7)
 
 xspt = (nyr/2)*4
-p3.plot( [xspt, xspt], [-0.9,-0.6], linestyle='dotted', c='#898989',linewidth=0.7)
+p3.plot( [xspt, xspt], [0.62,1.04], linestyle='dotted', c='#898989',linewidth=0.7)
 xspt = nyr*4+1
-p3.plot( [xspt, xspt], [-0.9,-0.6], linestyle='dotted', c='#898989',linewidth=0.7)
+p3.plot( [xspt, xspt], [0.62,1.04], linestyle='dotted', c='#898989',linewidth=0.7)
 
-
-p3.set_ylim(-0.9,-0.6)
+p3.set_yticks([0.7,0.8,0.9,1.0])
+p3.set_ylim(0.62,1.04)
 p3.set_xlim(-0.5,ncase+1.5)
 p3.set_xlabel('Year',size=11)
 p3.set_ylabel('Normalized Log Score',size=11)
@@ -196,7 +197,7 @@ for lb in p3.yaxis.get_ticklabels():
     lb.set_fontsize(9)
 
 leg = pyplot.legend(plstswp,lbllst, loc = 'upper right',\
-                    labelspacing=0.2,borderpad=0.6,ncol=3,handletextpad=0.4,columnspacing=1.0)
+                    labelspacing=0.2,borderpad=0.3,ncol=3,handletextpad=0.3,columnspacing=0.8)
 for t in leg.get_texts():
     t.set_fontsize(8)
 

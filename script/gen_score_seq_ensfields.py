@@ -6,13 +6,16 @@ from netCDF4 import Dataset
 import pandas
 from numpy import random
 import datetime
+import math
 
-random.seed(623114)
 rcpscn = False
-tgtdt = 20050401
-trnlst = numpy.array([24, 32], dtype=numpy.int16)
+tgtdt = 19850101
+trnlst = numpy.array([8, 16, 24, 32], dtype=numpy.int16)
 ntrncs = trnlst.size
-nepoch = 30
+nepoch = 50
+
+sdchc = 623114 + int(math.floor(tgtdt / 1.0e2))
+rng = random.default_rng(sdchc)
 
 mbrlst = []
 fllst = []
@@ -31,7 +34,7 @@ msq = numpy.arange(nmbr)
 for j in range(ntrncs):
     ntrncr = trnlst[j]
     for k in range(nepoch): 
-        csq = random.choice(msq,size=ntrncr,replace=False)
+        csq = rng.choice(msq,size=ntrncr,replace=False)
         print(numpy.sort(csq))
         smpsq[j,k,0:ntrncr] = numpy.sort(csq) 
 
