@@ -19,6 +19,11 @@ The examples in this repository depend on a Python environment supporting the [B
 * Python 3.10 or higher: `conda create -n py310 python=3.10 anaconda`
 * Clone batram: `git clone https://github.com/katzfuss-group/batram`
 * PIP install: `pip install -e .`
+* Pytorch options, environmental variables on interactive servers
+```
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+```
 
 **Other packages for land surface model analysis and visualization**
 
